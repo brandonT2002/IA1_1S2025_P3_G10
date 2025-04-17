@@ -1,0 +1,30 @@
+body { margin: 0; overflow: hidden; }
+canvas { display: block; }
+#startButton {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+#startButton:hover {
+    background-color: #45a049;
+}
+#algorithmSelect {
+    position: absolute;
+    top: 60px;
+    left: 20px;
+    padding: 10px 20px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+#algorithmSelect:hover {
+    background-color: #1E88E5;
+}
