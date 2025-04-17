@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Laberinto 3D</title>
+  <style>
+    body { margin: 0; overflow: hidden; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <!-- Cargar Three.js desde CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.min.js"></script>
+
+  <script>
+    fetch('maze.json')
+      .then(res => res.json())
+      .then(data => {
+        const { ancho, alto, inicio, fin, paredes } = data;
+
+        // Escena, cámara y render
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Luz ambiente
+        const light = new THREE.AmbientLight(0xffffff);
+        scene.add(light);
+
+        // Materiales
+        const wallMaterial = new THREE.MeshStandardMaterial({ color: 0x333333 });
+        const floorMaterial = new THREE.MeshStandardMaterial({ color: 0xaaaaaa });
+        const startMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+        const endMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+
+        const cubeSize = 1;
+
+        // Crear el piso
+        for (let x = 0; x < ancho; x++) {
+          for (let y = 0; y < alto; y++) {
+            const floor = new THREE.Mesh(
+              new THREE.BoxGeometry(cubeSize, 0.1, cubeSize),
+              floorMaterial
+            );
+            floor.position.set(x, -0.05, y);
+            scene.add(floor);
+          }
+        }
+
+        // Crear paredes
+        paredes.forEach(([x, y]) => {
+          const wall = new THREE.Mesh(
+            new THREE.BoxGeometry(cubeSize, 1, cubeSize),
+            wallMaterial
+          );
+          wall.position.set(x, 0.5, y);
+          scene.add(wall);
+        });
+
+        // Casilla de inicio
+        const start = new THREE.Mesh(
+          new THREE.BoxGeometry(cubeSize, 0.1, cubeSize),
+          startMaterial
+        );
+        start.position.set(inicio[0], 0.01, inicio[1]);
+        scene.add(start);
+
+        // Casilla de fin
+        const end = new THREE.Mesh(
+          new THREE.BoxGeometry(cubeSize, 0.1, cubeSize),
+          endMaterial
+        );
+        end.position.set(fin[0], 0.01, fin[1]);
+        scene.add(end);
+
+        // Posición de la cámara (directamente sobre el laberinto)
+        camera.position.set(ancho / 2, alto + 2, alto / 2);
+        camera.lookAt(ancho / 2, 0, alto / 2);
+
+        // Loop de animación
+        function animate() {
+          requestAnimationFrame(animate);
+          renderer.render(scene, camera);
+        }
+
+        animate();
+      })
+      .catch(err => console.error("Error al cargar el archivo JSON:", err));
+  </script>
+</body>
+</html>
