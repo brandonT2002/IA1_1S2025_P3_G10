@@ -1,30 +1,233 @@
-body { margin: 0; overflow: hidden; }
-canvas { display: block; }
-#startButton {
+body { 
+    margin: 0; 
+    overflow: hidden; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
+    background-color: #131313;
+}
+
+canvas { 
+    display: block;
     position: absolute;
-    top: 20px;
-    left: 20px;
-    padding: 10px 20px;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+h1 {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    font-size: 24px;
+    z-index: 10;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+/* Contenedor principal de controles */
+.controls-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 60px 20px 15px 20px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0) 100%);
+    box-sizing: border-box;
+    z-index: 5;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+/* Estilos para los grupos de controles */
+.control-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilos para los botones */
+.control-btn {
+    padding: 8px 15px;
     background-color: #4CAF50;
     color: white;
     border: none;
-    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    font-weight: bold;
+}
+
+.control-btn:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.control-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos para el selector */
+.control-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #444;
+    background-color: #333;
+    color: white;
     cursor: pointer;
 }
-#startButton:hover {
-    background-color: #45a049;
+
+.control-select:focus {
+    outline: none;
+    border-color: #4CAF50;
 }
-#algorithmSelect {
-    position: absolute;
-    top: 60px;
-    left: 20px;
-    padding: 10px 20px;
+
+/* Estilos para el input de archivo */
+#archivoLaberinto {
+    padding: 8px;
+    border-radius: 4px;
+    color: white;
+    background-color: #333;
+    border: 1px solid #444;
+    max-width: 200px;
+}
+
+#archivoLaberinto::file-selector-button {
+    margin-right: 10px;
+    padding: 6px 10px;
     background-color: #2196F3;
     color: white;
     border: none;
-    font-size: 16px;
+    border-radius: 4px;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
-#algorithmSelect:hover {
-    background-color: #1E88E5;
+
+#archivoLaberinto::file-selector-button:hover {
+    background-color: #0b7dda;
+}
+
+/* Controles de cámara */
+#camControls {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 40px);
+    grid-template-rows: repeat(3, 40px);
+    gap: 5px;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+#camUp {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+#camLeft {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+#camRight {
+    grid-column: 3;
+    grid-row: 2;
+}
+
+#camDown {
+    grid-column: 2;
+    grid-row: 3;
+}
+
+#camZoomIn {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+#camZoomOut {
+    grid-column: 2;
+    grid-row: 3;
+    margin-top: 20px;
+}
+
+#camControls button {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    background-color: rgba(33, 150, 243, 0.7);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+#camControls button:hover {
+    background-color: rgba(33, 150, 243, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+#camControls button:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Información del laberinto */
+#mazeInfo {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    z-index: 10;
+    max-width: 300px;
+}
+
+/* Estilo específico para el botón de reinicio */
+.reset-btn {
+    background-color: #ff7043;
+}
+
+.reset-btn:hover {
+    background-color: #ff5722;
+}
+
+/* Para pantallas pequeñas */
+@media (max-width: 768px) {
+    .controls-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .control-group {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    #mazeInfo {
+        bottom: auto;
+        top: 100px;
+        max-width: 80%;
+    }
 }

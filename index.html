@@ -1,21 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8" />
-    <title>Robot en Laberinto 3D</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cargador de Laberinto</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <button id="startButton">Iniciar Búsqueda del Camino</button>
-    <select id="algorithmSelect">
-        <option value="dijkstra">Dijkstra</option>
-        <option value="aStar">A*</option>
-        <option value="bfs">BFS</option>
-    </select>
+    <h1>Visualizador de Laberintos 3D</h1>
 
+    <div class="controls-container">
+        <!-- Contenedor para input y botón de carga -->
+        <div id="fileControls" class="control-group">
+            <input type="file" id="archivoLaberinto" accept=".json">
+            <button id="cargarLaberintoBtn" class="control-btn">Cargar Laberinto</button>
+        </div>
+
+        <!-- Contenedor para controles de algoritmo -->
+        <div id="algoControls" class="control-group">
+            <select id="algorithmSelect" class="control-select">
+                <option value="dijkstra">Dijkstra</option>
+                <option value="aStar">A*</option>
+                <option value="bfs">BFS</option>
+            </select>
+            <button id="startButton" class="control-btn">Iniciar Búsqueda</button>
+            <button id="resetButton" class="control-btn reset-btn">Reiniciar</button>
+        </div>
+    </div>
+
+    <!-- Información del laberinto -->
+    <div id="mazeInfo">
+        <div id="mazeStats">Sin laberinto cargado</div>
+        <div id="algorithmStatus"></div>
+    </div>
+
+    <!-- Controles de cámara -->
+    <div id="camControls">
+        <button id="camUp">↑</button>
+        <button id="camLeft">←</button>
+        <button id="camZoomIn">+</button>
+        <button id="camRight">→</button>
+        <button id="camDown">↓</button>
+        <button id="camZoomOut">−</button>
+    </div>
+
+    <!-- Three.js y librerías relacionadas -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fflate@0.7.4/umd/index.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FBXLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
